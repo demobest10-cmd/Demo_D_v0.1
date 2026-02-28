@@ -1,116 +1,106 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ReserveLink - Prototype RDV</title>
+    <title>ReserveLink SaaS</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="page-bg" aria-hidden="true"></div>
+    <main>
+      <section id="landingPage" class="landing page active">
+        <div class="hero">
+          <span class="chip">ReserveLink SaaS</span>
+          <h1>Modern appointment booking for clinics and hospitals.</h1>
+          <p>Manage appointments, alerts, and patient flow in a clean and responsive SaaS interface.</p>
+        </div>
 
-    <main class="flow-shell">
-      <header class="app-header card">
-        <h1>🔗 ReserveLink</h1>
-        <p>Réservation médicale simple, moderne et rapide.</p>
-      </header>
-
-      <section id="loginPage" class="card page active">
-        <h2>Connexion</h2>
-        <p class="muted">Connectez-vous avec Google pour continuer.</p>
-        <button id="googleLoginBtn" class="primary-btn" type="button">Continuer avec Google</button>
+        <article class="card login-card">
+          <h2>Login</h2>
+          <label>Email<input id="loginEmail" type="email" value="admin@reservelink.com" /></label>
+          <label>Password<input id="loginPassword" type="password" value="password" /></label>
+          <button id="loginBtn" class="primary-btn" type="button">Sign in</button>
+        </article>
       </section>
 
-      <section id="selectionPage" class="card page">
-        <h2>Choisir votre établissement</h2>
-        <p class="muted">Sélectionnez d'abord hôpital, spécialité et médecin.</p>
-        <form id="selectionForm" class="selection-form">
-          <label>
-            Hôpital
-            <select id="hospitalSelect" required></select>
-          </label>
-          <label>
-            Spécialité
-            <select id="specialitySelect" required></select>
-          </label>
-          <label>
-            Médecin
-            <select id="doctorSelect" required></select>
-          </label>
-          <button type="submit" class="primary-btn">Continuer vers réservation</button>
-        </form>
-      </section>
+      <section id="dashboardPage" class="dashboard page">
+        <aside class="sidebar card">
+          <h2>ReserveLink</h2>
+          <nav>
+            <button class="nav-item active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-item" data-tab="book">Book Appointment</button>
+            <button class="nav-item" data-tab="appointments">My Appointments</button>
+            <button class="nav-item" data-tab="history">History</button>
+            <button class="nav-item" data-tab="alerts">Alerts</button>
+            <button class="nav-item" data-tab="settings">Settings</button>
+            <button id="logoutBtn" class="nav-item danger">Logout</button>
+          </nav>
+        </aside>
 
-      <section id="bookingPage" class="page">
-        <div class="app-shell">
-          <section class="left-panel card">
-            <h2>Profil &amp; Mes RDV</h2>
+        <section class="content">
+          <article id="tab-dashboard" class="card tab active">
+            <h3>Dashboard</h3>
+            <p>Welcome back. Here is your booking summary.</p>
+            <div class="kpi-grid">
+              <div class="kpi"><strong id="upcomingCount">0</strong><span>Upcoming</span></div>
+              <div class="kpi"><strong id="historyCount">0</strong><span>History</span></div>
+              <div class="kpi"><strong>2</strong><span>Max Active</span></div>
+            </div>
+          </article>
 
-            <article class="profile-card">
-              <img src="https://i.pravatar.cc/120?u=reserve-link-user" alt="Photo profil" id="profileAvatar" />
+          <article id="tab-book" class="card tab">
+            <h3>Book Appointment</h3>
+            <form id="bookForm" class="book-form">
+              <label>
+                Service
+                <select id="serviceSelect">
+                  <option>General Consultation</option>
+                  <option>Dental</option>
+                  <option>Dermatology</option>
+                  <option>Cardiology</option>
+                </select>
+              </label>
+
+              <label>
+                Date
+                <input id="dateInput" type="date" />
+              </label>
+
               <div>
-                <h3 id="patientName">Patient</h3>
-                <p id="patientEmail">email@exemple.com</p>
-                <p id="patientPhone">+33 6 00 00 00 00</p>
+                <span class="label">Available time slots</span>
+                <div id="slotGrid" class="slot-grid"></div>
               </div>
-            </article>
 
-            <div class="profile-form">
-              <label>Nom<input id="profileName" type="text" placeholder="Alex Durand" /></label>
-              <label>Email<input id="profileEmail" type="email" placeholder="alexdurand@gmail.com" /></label>
-              <label>Téléphone<input id="profilePhone" type="tel" placeholder="+33 95 7355" /></label>
-            </div>
+              <label>
+                Notes
+                <textarea id="notesInput" placeholder="Any details for your appointment..."></textarea>
+              </label>
 
-            <h3>Prochains RDV</h3>
-            <p class="hint">Maximum 2 RDV actifs.</p>
-            <ul id="appointmentsList" class="appointments-list"></ul>
-          </section>
+              <button id="submitBtn" type="submit" class="primary-btn" disabled>Submit Appointment</button>
+            </form>
+            <p id="successMsg" class="success hidden">✅ Appointment booked successfully.</p>
+          </article>
 
-          <section class="right-panel card">
-            <h2>Calendrier de Réservation</h2>
+          <article id="tab-appointments" class="card tab">
+            <h3>My Appointments</h3>
+            <ul id="appointmentsList" class="list"></ul>
+          </article>
 
-            <div class="context-box" id="selectionSummary"></div>
+          <article id="tab-history" class="card tab">
+            <h3>History</h3>
+            <ul id="historyList" class="list"></ul>
+          </article>
 
-            <div id="alertBanner" class="alert-banner">
-              <strong>Attention :</strong>
-              <span>Le cabinet sera fermé le 27. Veuillez choisir une autre date.</span>
-            </div>
+          <article id="tab-alerts" class="card tab">
+            <h3>Alerts</h3>
+            <ul id="alertsList" class="list"></ul>
+          </article>
 
-            <div class="calendar-header">
-              <h3>Calendrier</h3>
-              <div class="calendar-controls">
-                <button id="prevMonth" type="button" aria-label="Mois précédent">‹</button>
-                <p id="monthTitle"></p>
-                <button id="nextMonth" type="button" aria-label="Mois suivant">›</button>
-              </div>
-            </div>
-
-            <div id="calendarGrid" class="month-grid" role="grid" aria-label="Calendrier mensuel"></div>
-
-            <div class="slots-section">
-              <h3>Créneaux disponibles</h3>
-              <p id="selectedDayLabel" class="selected-day">—</p>
-              <div id="slotsGrid" class="slots-grid"></div>
-            </div>
-
-            <button id="bookBtn" class="confirm-btn" type="button" disabled>Confirmer la réservation</button>
-
-            <section class="notifications">
-              <h3>Alertes actives</h3>
-              <ul id="notificationLog" class="log-list"></ul>
-            </section>
-          </section>
-        </div>
-      </section>
-
-      <section id="homePage" class="card page">
-        <h2>Accueil</h2>
-        <p class="muted">Bienvenue. Que voulez-vous faire ?</p>
-        <div class="home-actions">
-          <button id="goBookBtn" class="primary-btn" type="button">Book appointment</button>
-          <button id="seeAppointmentsBtn" class="secondary-btn" type="button">See appointments</button>
-        </div>
-        <div id="homeAppointments" class="home-list"></div>
+          <article id="tab-settings" class="card tab">
+            <h3>Settings</h3>
+            <p>Profile and notification preferences (placeholder).</p>
+          </article>
+        </section>
       </section>
     </main>
 

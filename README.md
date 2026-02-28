@@ -1,56 +1,42 @@
-# ReserveLink SaaS (Next.js)
+# ReserveLink SaaS
 
-Modern SaaS appointment booking frontend built with:
+This repository now includes a **working no-build frontend** (HTML/CSS/JS) that matches the requested SaaS flow and can run immediately.
 
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- Shadcn-style UI components
+## Quick run (works without npm install)
 
-## Pages
+```bash
+python3 -m http.server 4173
+```
 
-- `/` Landing page with hero (left) and login form card (right)
-- `/dashboard` Dashboard page with sidebar + main content
-- `/dashboard/book` Book Appointment page
+Open: `http://localhost:4173`
 
-## Sidebar items
+## Included pages (SPA)
 
-- Dashboard
-- Book Appointment
-- My Appointments
-- History
-- Alerts
-- Settings
-- Logout
+- Landing (hero left + login card right)
+- Dashboard with sidebar and sections:
+  - Dashboard
+  - Book Appointment
+  - My Appointments
+  - History
+  - Alerts
+  - Settings
+  - Logout
 
-## Booking structure
-
-The booking page keeps the required structure:
+## Book Appointment structure kept
 
 - Service dropdown
 - Date picker
-- Available time slot selector
+- Available time slots selector
 - Notes textarea
 - Submit button
 - Success confirmation message
 
-## Run locally
+## Data
 
-```bash
-npm install
-npm run dev
-```
+Dummy data and local persistence are handled via `localStorage` key:
 
-Open `http://localhost:3000`.
+- `reserveLinkSaaSData`
 
-## Environment troubleshooting (proxy / registry)
+## Next.js scaffold
 
-If `npm install` fails with proxy-related `403 Forbidden` or unknown proxy warnings, run the safe script:
-
-```bash
-npm run dev:safe
-```
-
-This script unsets proxy variables for the current process and retries `npm install` + `npm run dev`.
-
-If your environment blocks direct internet access, configure an allowed internal npm registry and rerun `npm install`.
+The Next.js/Tailwind/TypeScript scaffold is still present in the repo for future migration, but this static SPA mode is what works immediately in restricted environments.
