@@ -42,3 +42,15 @@ npm run dev
 ```
 
 Open `http://localhost:3000`.
+
+## Environment troubleshooting (proxy / registry)
+
+If `npm install` fails with proxy-related `403 Forbidden` or unknown proxy warnings, run the safe script:
+
+```bash
+npm run dev:safe
+```
+
+This script unsets proxy variables for the current process and retries `npm install` + `npm run dev`.
+
+If your environment blocks direct internet access, configure an allowed internal npm registry and rerun `npm install`.
